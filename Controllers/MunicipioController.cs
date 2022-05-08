@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
 using System.Data;
 using PIA_79_0.Models;
 
@@ -37,9 +32,10 @@ namespace PIA_79_0.Controllers
         {
             
 
-            if(municipio.NomMunicipio == null)
+            if(municipio.NomMunicipio == null || municipio.NomMunicipio.Length == 0)
             {
-                return BadRequest();
+                ModelState.AddModelError("Municipio", "Datos incompletos");
+                return BadRequest(ModelState);
             }
 
             Municipio.insertData(_configuration,municipio);
@@ -54,12 +50,46 @@ namespace PIA_79_0.Controllers
         {
 
 
-            if (id == 0 || id < 0)
+            if (id == 0 || id < 0 || id >= 15000)
             {
-                return BadRequest();
+                ModelState.AddModelError("id", "valor inválido");
+                return BadRequest(ModelState);
             }
 
             Municipio.delete(_configuration, id);
+
+            return Ok();
+
+        }
+
+
+        [Route("api/municipio/{id:int}")]
+        [HttpPut]
+        public ActionResult Put(int id, Municipio municipio)
+        {
+
+
+            String query = @"Update dbo.Municipio ";
+            if (id == 0 || id < 0)
+            {
+                ModelState.AddModelError("id", "valor inválido");
+                return BadRequest(ModelState);
+            }
+
+            if(municipio.NomMunicipio != null)
+            {
+                query += @" set NomMunicipio = '" + municipio.NomMunicipio + @"'";
+                
+            }
+            else
+            {
+                ModelState.AddModelError("NomMunicipio", "Valor requerido");
+                return BadRequest(ModelState);
+            }
+
+            query += @"where IdMunicipio = " + id; 
+
+            Municipio.update(_configuration, query);
 
             return Ok();
 

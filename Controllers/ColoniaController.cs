@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using PIA_79_0.Models;
 
 namespace PIA_79_0.Controllers
@@ -34,16 +29,17 @@ namespace PIA_79_0.Controllers
         [HttpPost]
         public ActionResult Post(Colonia colonia)
         {
-            if(colonia.NomColonia == null || colonia.NomColonia.Length < 1)
+            if (colonia.NomColonia == null || colonia.NomColonia.Length == 0)
             {
-                return BadRequest();
+                ModelState.AddModelError("Colonia", "Datos incompletos");
+                return BadRequest(ModelState);
+               
             }
             
             Colonia.insertData(_configuration, colonia);
 
             return Ok();
 
-            //return new JsonResult("Added");
         }
 
         [Route("api/colonia/{id:int}")]
@@ -51,13 +47,46 @@ namespace PIA_79_0.Controllers
         public ActionResult Delete(int id)
         {
 
-
-            if (id == 0 || id < 0)
+            if (id == 0 || id < 0 || id >= 15000)
             {
-                return BadRequest();
+                ModelState.AddModelError("id", "valor inválido");
+                return BadRequest(ModelState);
+                
             }
 
             Colonia.delete(_configuration, id);
+
+            return Ok();
+
+        }
+
+        [Route("api/colonia/{id:int}")]
+        [HttpPut]
+        public ActionResult Put(int id, Colonia colonia)
+        {
+
+
+            String query = @"Update dbo.Colonia ";
+            if (id == 0 || id < 0 || id >= 15000)
+            {
+                ModelState.AddModelError("id", "valor inválido");
+                return BadRequest(ModelState);
+            }
+
+            if (colonia.NomColonia != null)
+            {
+                query += @" set NomColonia = '" + colonia.NomColonia + @"'";
+
+            }
+            else
+            {
+                ModelState.AddModelError("NomColonia", "Valor requerido");
+                return BadRequest(ModelState);
+            }
+
+            query += @"where IdColonia = " + id;
+
+            Colonia.update(_configuration, query);
 
             return Ok();
 

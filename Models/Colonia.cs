@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace PIA_79_0.Models
@@ -47,6 +43,12 @@ namespace PIA_79_0.Models
             BaseModel baseModel = new BaseModel(_configuration);
             baseModel.Delete(query);
 
+        }
+
+        public static void update(IConfiguration _configuration, string query)
+        {
+            BaseModel baseModel = new BaseModel(_configuration);
+            baseModel.Update(query);
         }
     }
 }

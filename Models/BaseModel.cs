@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 
@@ -51,6 +47,11 @@ namespace PIA_79_0.Models
             do_query(query);
         }
         public void Delete(String query)
+        {
+            do_query(query);
+        }
+
+        public void Update(String query)
         {
             do_query(query);
         }
