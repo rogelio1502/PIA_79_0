@@ -29,7 +29,7 @@ namespace PIA_79_0.Controllers
         [HttpPost]
         public ActionResult Post(Colonia colonia)
         {
-            if (colonia.NomColonia == null || colonia.NomColonia.Length == 0)
+            if (colonia.NomColonia == null || colonia.NomColonia.Length == 0 || colonia.idMunicipio <= 0)
             {
                 ModelState.AddModelError("Colonia", "Datos incompletos");
                 return BadRequest(ModelState);
@@ -83,6 +83,8 @@ namespace PIA_79_0.Controllers
                 ModelState.AddModelError("NomColonia", "Valor requerido");
                 return BadRequest(ModelState);
             }
+
+            
 
             query += @"where IdColonia = " + id;
 

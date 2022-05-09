@@ -27,8 +27,11 @@ namespace PIA_79_0.Models
         public static void insertData(IConfiguration _configuration, Colonia colonia)
         {
             string query = @"
-                insert into dbo.Colonia (NomColonia) values
-                ('" + colonia.NomColonia + @"')
+                insert into dbo.Colonia (NomColonia,IdMunicipio) values
+                ('" + colonia.NomColonia + @"', 
+                    " + colonia.idMunicipio + @"
+                      
+                )
             ";
 
             BaseModel baseModel = new BaseModel(_configuration);
