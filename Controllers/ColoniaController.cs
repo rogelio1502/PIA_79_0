@@ -83,8 +83,18 @@ namespace PIA_79_0.Controllers
                 ModelState.AddModelError("NomColonia", "Valor requerido");
                 return BadRequest(ModelState);
             }
+            if (colonia.NomColonia != null)
+            {
+                query += @" , IdMunicipio = '" + colonia.idMunicipio + @"'";
 
-            
+            }
+            else
+            {
+                ModelState.AddModelError("IDMunicipio", "Valor requerido");
+                return BadRequest(ModelState);
+            }
+
+
 
             query += @"where IdColonia = " + id;
 

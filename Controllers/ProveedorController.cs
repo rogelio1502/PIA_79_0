@@ -89,7 +89,7 @@ namespace PIA_79_0.Controllers
 
             if (proveedor.Nombre != null)
             {
-                query += @" set Nombre = '" + proveedor.Nombre + @"'";
+                query += @"set Nombre = '" + proveedor.Nombre + @"'";
 
             }
             else
@@ -100,7 +100,7 @@ namespace PIA_79_0.Controllers
 
             if (proveedor.CalleN != null)
             {
-                query += @" set CalleN = '" + proveedor.CalleN + @"'";
+                query += @", CalleN = '" + proveedor.CalleN + @"'";
 
             }
             else
@@ -109,9 +109,9 @@ namespace PIA_79_0.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (proveedor.CP <= 0)
+            if (proveedor.CP > 0)
             {
-                query += @" set CP = '" + proveedor.CP + @"'";
+                query += @", CP = '" + proveedor.CP + @"'";
 
             }
             else
@@ -131,7 +131,7 @@ namespace PIA_79_0.Controllers
                     ModelState.AddModelError("Fecha Registro", "Fecha Inválida.");
                     return BadRequest(ModelState);
                 }
-                query += @" set FecRegistro = '" + proveedor.FecRegistro + @"'";
+                query += @",FecRegistro = '" + proveedor.FecRegistro + @"'";
 
             }
             else
@@ -142,7 +142,7 @@ namespace PIA_79_0.Controllers
 
             if (proveedor.Tel != null && proveedor.Tel.Length == 10)
             {
-                query += @" set Tel = '" + proveedor.Tel + @"'";
+                query += @",Tel = '" + proveedor.Tel + @"'";
 
             }
             else
@@ -150,6 +150,7 @@ namespace PIA_79_0.Controllers
                 ModelState.AddModelError("Tel", "Valor requerido");
                 return BadRequest(ModelState);
             }
+            Console.WriteLine(query);
 
             query += @"where IdProveedor = " + id;
 
