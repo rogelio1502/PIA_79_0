@@ -150,6 +150,17 @@ namespace PIA_79_0.Controllers
                 ModelState.AddModelError("Tel", "Valor requerido");
                 return BadRequest(ModelState);
             }
+
+            if (proveedor.IdColonia != 0 )
+            {
+                query += @",IdColonia = '" + proveedor.IdColonia + @"'";
+
+            }
+            else
+            {
+                ModelState.AddModelError("IDColonia", "Valor requerido");
+                return BadRequest(ModelState);
+            }
             Console.WriteLine(query);
 
             query += @"where IdProveedor = " + id;
